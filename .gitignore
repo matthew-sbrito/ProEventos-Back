@@ -3,5 +3,5 @@ obj
 /dist
 /tmp
 /out-tsc
-
+.vscode
 ProEventos.Persistence/mono_crash.21acb2c11b.0.json

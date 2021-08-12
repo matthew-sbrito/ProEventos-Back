@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProEventos.Persistence.Context;
 
 namespace ProEventos.Persistence.Migrations
 {
     [DbContext(typeof(ProEventosContext))]
-    partial class ProEventosContextModelSnapshot : ModelSnapshot
+    [Migration("20210811130142_UsersInEvent")]
+    partial class UsersInEvent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,7 +172,7 @@ namespace ProEventos.Persistence.Migrations
                     b.Property<int>("IsAdmin")
                         .HasColumnType("int");
 
-                    b.Property<int>("IsPalest")
+                    b.Property<int>("IsPalestrante")
                         .HasColumnType("int");
 
                     b.Property<string>("Nome")
@@ -186,15 +188,15 @@ namespace ProEventos.Persistence.Migrations
 
             modelBuilder.Entity("ProEventos.Domain.UserEvento", b =>
                 {
-                    b.Property<int>("EventoId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("EventoId", "UserId");
+                    b.Property<int>("EventoId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("UserId");
+                    b.HasKey("UserId", "EventoId");
+
+                    b.HasIndex("EventoId");
 
                     b.ToTable("UserEventos");
                 });

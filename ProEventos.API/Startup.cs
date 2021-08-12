@@ -38,9 +38,16 @@ namespace ProEventos.API
 
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+      services.AddScoped<ILoteService, LoteService>();
+      services.AddScoped<IUserService, UserService>();
       services.AddScoped<IEventoService, EventoService>();
+
       services.AddScoped<IGeralPersist, GeralPersist>();
+
       services.AddScoped<IEventoPersist, EventoPersist>();
+      services.AddScoped<ILotePersist, LotePersist>();
+      services.AddScoped<IUserPersist, UserPersist>();
+      
       services.AddCors();
       services.AddSwaggerGen(c =>
       {
@@ -55,7 +62,7 @@ namespace ProEventos.API
       {
         app.UseDeveloperExceptionPage();
         app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProEventos.API v1"));
+        // app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProEventos.API v1"));
       }
 
       app.UseHttpsRedirection();

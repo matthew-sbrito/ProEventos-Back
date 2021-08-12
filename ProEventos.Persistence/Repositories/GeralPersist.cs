@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ProEventos.Domain;
 using ProEventos.Persistence.Interfaces;
 using ProEventos.Persistence.Context;
+using System;
 
 namespace ProEventos.Persistence
 {
@@ -20,7 +21,7 @@ namespace ProEventos.Persistence
     }
     public void Update<T>(T entity) where T : class
     {
-        _context.Update(entity);
+      _context.Update(entity);
 
     }
 
@@ -33,10 +34,19 @@ namespace ProEventos.Persistence
     {
       _context.RemoveRange(entityArray);
     }
-      public async Task<bool> SaveChangesAsync()
+    public async Task<bool> SaveChangesAsync()
     {
-      return(await _context.SaveChangesAsync()) > 0;
-    }
+      var save = false;
+      try
+      {
+        save = (await _context.SaveChangesAsync()) > 0;
+      }
+      catch (Exception ex)
+      { 
+          Console.WriteLine($"Error saving changes {ex}");
+      }
 
+      return save;
+    }
   }
 }

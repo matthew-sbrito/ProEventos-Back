@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProEventos.Persistence.Context;
 
 namespace ProEventos.Persistence.Migrations
 {
     [DbContext(typeof(ProEventosContext))]
-    partial class ProEventosContextModelSnapshot : ModelSnapshot
+    [Migration("20210810145838_Users")]
+    partial class Users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,16 +163,13 @@ namespace ProEventos.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("DataNascimento")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<DateTime?>("DataNascimento")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("IsAdmin")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IsPalest")
                         .HasColumnType("int");
 
                     b.Property<string>("Nome")
@@ -182,21 +181,6 @@ namespace ProEventos.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("ProEventos.Domain.UserEvento", b =>
-                {
-                    b.Property<int>("EventoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EventoId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserEventos");
                 });
 
             modelBuilder.Entity("ProEventos.Domain.Lote", b =>
@@ -246,25 +230,6 @@ namespace ProEventos.Persistence.Migrations
                     b.Navigation("Palestrante");
                 });
 
-            modelBuilder.Entity("ProEventos.Domain.UserEvento", b =>
-                {
-                    b.HasOne("ProEventos.Domain.Evento", "Evento")
-                        .WithMany("UserEventos")
-                        .HasForeignKey("EventoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProEventos.Domain.User", "User")
-                        .WithMany("UserEventos")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Evento");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ProEventos.Domain.Evento", b =>
                 {
                     b.Navigation("Lotes");
@@ -272,8 +237,6 @@ namespace ProEventos.Persistence.Migrations
                     b.Navigation("PalestrantesEventos");
 
                     b.Navigation("RedesSociais");
-
-                    b.Navigation("UserEventos");
                 });
 
             modelBuilder.Entity("ProEventos.Domain.Palestrante", b =>
@@ -281,11 +244,6 @@ namespace ProEventos.Persistence.Migrations
                     b.Navigation("PalestrantesEventos");
 
                     b.Navigation("RedesSociais");
-                });
-
-            modelBuilder.Entity("ProEventos.Domain.User", b =>
-                {
-                    b.Navigation("UserEventos");
                 });
 #pragma warning restore 612, 618
         }

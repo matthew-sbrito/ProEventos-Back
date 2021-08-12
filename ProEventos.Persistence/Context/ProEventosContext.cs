@@ -13,12 +13,17 @@ namespace ProEventos.Persistence.Context
         public DbSet<Palestrante> Palestrantes { get; set; }
         public DbSet<PalestranteEvento> PalestrantesEventos { get; set; }
         public DbSet<RedeSocial> RedesSociais { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserEvento> UserEventos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
             modelBuilder.Entity<PalestranteEvento>()
                 .HasKey(PE => new { PE.EventoId, PE.PalestranteId});
+            
+            modelBuilder.Entity<UserEvento>()
+                .HasKey(UE => new {UE.EventoId, UE.UserId});
             
             modelBuilder.Entity<Evento>()
                 .HasMany(e => e.RedesSociais)
