@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ProEventos.API.Controllers.Input;
 using ProEventos.Application.Dto;
 using ProEventos.Application.Interfaces;
 
@@ -11,9 +12,9 @@ namespace ProEventos.API.Controllers
   public class UserController : ControllerBase
   {
     public readonly IUserService _userService;
-    public UserController(IUserService UserService)
+    public UserController(IUserService userService)
     {
-      _userService = UserService;
+      _userService = userService;
     }
 
     [HttpGet]
@@ -80,28 +81,23 @@ namespace ProEventos.API.Controllers
         return this.StatusCode(500, $"Erro ao cadastrar usuário! {ex.Message}");
       }
     }
-    [HttpPost("login")]
-    public async Task<IActionResult> AuthLogin(LoginDto model)
+    [HttpPost("email")]
+    public async Task<IActionResult> GetUserByEmail(SendEmail model)
     {
       try
       {
         var user = await _userService.GetUserByEmailAsync(model.Email);
 
-        if(user == null){
-          BadRequest("Dados inválidos!");
-        } 
+        if (user == null) return BadRequest("Usuário inexistente!");
 
-        var AuthLogin = (model.Senha == user.Senha);
-
-        return AuthLogin ? Ok(user) 
-                          : BadRequest("Dados inválidos!");
-        
+        return Ok(user);
       }
       catch (Exception ex)
       {
-        return this.StatusCode(500, $"Erro realizar login! {ex.Message}");
+        return this.StatusCode(500, $"Erro ao cadastrar usuário! {ex.Message}");
       }
     }
+  
     [HttpPut("{userId}")]
     public async Task<IActionResult> Put(int userId, UserDto model)
     {
