@@ -30,7 +30,7 @@ namespace ProEventos.API.Controllers
       {
         MailMessage _mailMessage = new MailMessage();
 
-        _mailMessage.From = new MailAddress("matheusbr032@gmail.com");
+        _mailMessage.From = new MailAddress("email");
 
         _mailMessage.CC.Add(email);
         _mailMessage.Subject = "Pro Eventos";
@@ -41,7 +41,7 @@ namespace ProEventos.API.Controllers
 
         _smtpClient.UseDefaultCredentials = false;
 
-        _smtpClient.Credentials = new NetworkCredential("matheusbr032@gmail.com", "mt0072610");
+        _smtpClient.Credentials = new NetworkCredential("email", "senha");
 
         _smtpClient.EnableSsl = true;
 
